@@ -1,17 +1,10 @@
 {
   "$schema": "https://www.schemastore.org/tsconfig",
+
   "compilerOptions": {
-    "target": "ES2017",
+    /* Environment Setup */
+    "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
@@ -19,11 +12,36 @@
         "name": "next"
       }
     ],
+
+    /* Bundler */
+    "noEmit": true,
+    "allowJs": true,
+    "module": "esnext",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+
+    /* Strict Flags */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noImplicitOverride": true,
+    "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "noPropertyAccessFromIndexSignature": true,
+
+    /* Path References */
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     }
   },
+
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -34,5 +52,6 @@
     "**/*.mts",
     "**/*.mjs"
   ],
+
   "exclude": ["node_modules"]
 }
