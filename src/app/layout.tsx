@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import "~/app/globals.css";
+import { NextThemeProvider } from "~/integrations/next-themes/provider";
 import { cn } from "~/lib/utils";
 
 const geistSans = Geist({
@@ -27,9 +28,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+    >
       <body className={cn(geistSans.variable, geistMono.variable)}>
-        {children}
+        <NextThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </NextThemeProvider>
       </body>
     </html>
   );
