@@ -9,7 +9,10 @@ import {
 } from "@tabler/icons-react";
 import { useForm } from "@tanstack/react-form";
 import { UserRoundIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
+import { authClient } from "~/server/authentication/client.auth";
 import { Button } from "~/shadcn/ui/button";
 import {
   Field,
@@ -23,10 +26,14 @@ import {
   InputGroupAddon,
   InputGroupInput
 } from "~/shadcn/ui/input-group";
+import { Spinner } from "~/shadcn/ui/spinner";
 import { userSignupSchema } from "~/validators/authentication.validator";
 
 export function SignupForm() {
   const [isPassword, setIsPassword] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const signupForm = useForm({
     defaultValues: {
@@ -39,7 +46,25 @@ export function SignupForm() {
       onSubmit: userSignupSchema
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      setIsPending(true);
+
+      await authClient.signUp
+        .email({
+          ...value,
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success("User signup successful");
+              signupForm.reset();
+              router.replace("/dashboard");
+            },
+            onError: () => {
+              toast.error("User signup failed");
+            }
+          }
+        })
+        .finally(() => {
+          setIsPending(_curr => false);
+        });
     }
   });
 
@@ -196,10 +221,17 @@ export function SignupForm() {
               signupForm.reset();
             }}
             variant={"secondary"}
+            disabled={isPending}
           >
             Reset
           </Button>
-          <Button type="submit">Signin</Button>
+          <Button
+            type="submit"
+            disabled={isPending}
+          >
+            {isPending && <Spinner />}
+            Signup
+          </Button>
         </div>
       </FieldGroup>
     </form>

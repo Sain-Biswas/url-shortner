@@ -1,21 +1,22 @@
-"use client"
+/* eslint-disable @eslint-react/no-unstable-context-value */
+"use client";
 
-import * as React from "react"
-import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group"
-import { type VariantProps } from "class-variance-authority"
+import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
+import { type VariantProps } from "class-variance-authority";
+import * as React from "react";
 
-import { cn } from "~/lib/utils"
-import { toggleVariants } from "~/shadcn/ui/toggle"
+import { cn } from "~/lib/utils";
+import { toggleVariants } from "~/shadcn/ui/toggle";
 
 const ToggleGroupContext = React.createContext<
   VariantProps<typeof toggleVariants> & {
-    spacing?: number
+    spacing?: number;
   }
 >({
   size: "default",
   variant: "default",
-  spacing: 0,
-})
+  spacing: 0
+});
 
 function ToggleGroup({
   className,
@@ -24,9 +25,9 @@ function ToggleGroup({
   spacing = 0,
   children,
   ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Root> &
-  VariantProps<typeof toggleVariants> & {
-    spacing?: number
+}: React.ComponentProps<typeof ToggleGroupPrimitive.Root>
+  & VariantProps<typeof toggleVariants> & {
+    spacing?: number;
   }) {
   return (
     <ToggleGroupPrimitive.Root
@@ -41,11 +42,11 @@ function ToggleGroup({
       )}
       {...props}
     >
-      <ToggleGroupContext.Provider value={{ variant, size, spacing }}>
+      <ToggleGroupContext value={{ variant, size, spacing }}>
         {children}
-      </ToggleGroupContext.Provider>
+      </ToggleGroupContext>
     </ToggleGroupPrimitive.Root>
-  )
+  );
 }
 
 function ToggleGroupItem({
@@ -54,20 +55,20 @@ function ToggleGroupItem({
   variant,
   size,
   ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Item> &
-  VariantProps<typeof toggleVariants>) {
-  const context = React.useContext(ToggleGroupContext)
+}: React.ComponentProps<typeof ToggleGroupPrimitive.Item>
+  & VariantProps<typeof toggleVariants>) {
+  const context = React.use(ToggleGroupContext);
 
   return (
     <ToggleGroupPrimitive.Item
       data-slot="toggle-group-item"
-      data-variant={context.variant || variant}
-      data-size={context.size || size}
+      data-variant={context.variant ?? variant}
+      data-size={context.size ?? size}
       data-spacing={context.spacing}
       className={cn(
         toggleVariants({
-          variant: context.variant || variant,
-          size: context.size || size,
+          variant: context.variant ?? variant,
+          size: context.size ?? size
         }),
         "w-auto min-w-0 shrink-0 px-3 focus:z-10 focus-visible:z-10",
         "data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none data-[spacing=0]:first:rounded-l-md data-[spacing=0]:last:rounded-r-md data-[spacing=0]:data-[variant=outline]:border-l-0 data-[spacing=0]:data-[variant=outline]:first:border-l",
@@ -77,7 +78,7 @@ function ToggleGroupItem({
     >
       {children}
     </ToggleGroupPrimitive.Item>
-  )
+  );
 }
 
-export { ToggleGroup, ToggleGroupItem }
+export { ToggleGroup, ToggleGroupItem };

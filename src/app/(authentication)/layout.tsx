@@ -1,4 +1,6 @@
 import { IconCirclesRelation } from "@tabler/icons-react";
+import { redirect } from "next/navigation";
+import { trpcServer } from "~/integrations/trpc/server.trpc";
 import {
   Item,
   ItemContent,
@@ -11,6 +13,10 @@ import {
 export default async function AuthenticationLayout({
   children
 }: LayoutProps<"/">) {
+  const { isAuthenticated } = await trpcServer.index.isAuthenticated();
+
+  if (isAuthenticated) redirect("/dashboard");
+
   return (
     <main className="grid min-h-screen place-content-center">
       <div>

@@ -3,7 +3,10 @@
 import { IconEye, IconEyeOff, IconLock } from "@tabler/icons-react";
 import { useForm } from "@tanstack/react-form";
 import { UserRoundIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
+import { authClient } from "~/server/authentication/client.auth";
 import { Button } from "~/shadcn/ui/button";
 import {
   Field,
@@ -17,10 +20,14 @@ import {
   InputGroupAddon,
   InputGroupInput
 } from "~/shadcn/ui/input-group";
+import { Spinner } from "~/shadcn/ui/spinner";
 import { userSigninSchema } from "~/validators/authentication.validator";
 
 export function SigninForm() {
   const [isPassword, setIsPassword] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const signinForm = useForm({
     defaultValues: {
@@ -31,7 +38,25 @@ export function SigninForm() {
       onSubmit: userSigninSchema
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      setIsPending(true);
+
+      await authClient.signIn
+        .username({
+          ...value,
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success("User signin successful");
+              signinForm.reset();
+              router.replace("/dashboard");
+            },
+            onError: () => {
+              toast.error("User signin failed");
+            }
+          }
+        })
+        .finally(() => {
+          setIsPending(false);
+        });
     }
   });
 
@@ -128,10 +153,17 @@ export function SigninForm() {
               signinForm.reset();
             }}
             variant={"secondary"}
+            disabled={isPending}
           >
             Reset
           </Button>
-          <Button type="submit">Signin</Button>
+          <Button
+            type="submit"
+            disabled={isPending}
+          >
+            {isPending && <Spinner />}
+            Signin
+          </Button>
         </div>
       </FieldGroup>
     </form>
