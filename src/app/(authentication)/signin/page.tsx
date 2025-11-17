@@ -6,7 +6,7 @@ export default function SigninPage() {
   return (
     <section id="form">
       <SigninForm />
-      <p className="text-center text-sm text-accent-foreground">
+      <p className="mt-4 text-center text-sm text-accent-foreground">
         Don&apos;t have an account?
         <Button
           variant={"link"}

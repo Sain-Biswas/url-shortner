@@ -32,27 +32,15 @@ export const authenticationRouter = createTRPCRouter({
   userSignin: publicProcedure
     .input(userSigninSchema)
     .mutation(async ({ ctx, input }) => {
-      if (input.isEmail) {
-        const data = await auth.api.signInEmail({
-          headers: ctx.headers,
-          body: {
-            email: input.email ?? "",
-            password: input.password
-          }
-        });
+      const data = await auth.api.signInUsername({
+        headers: ctx.headers,
+        body: {
+          username: input.username,
+          password: input.password
+        }
+      });
 
-        return data;
-      } else {
-        const data = await auth.api.signInUsername({
-          headers: ctx.headers,
-          body: {
-            username: input.username ?? "",
-            password: input.password
-          }
-        });
-
-        return data;
-      }
+      return data;
     }),
 
   userSignout: protectedProcedure.mutation(async ({ ctx }) => {

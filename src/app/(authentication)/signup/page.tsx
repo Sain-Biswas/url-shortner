@@ -6,7 +6,7 @@ export default function SignupPage() {
   return (
     <section id="form">
       <SignupForm />
-      <p className="text-center text-sm text-accent-foreground">
+      <p className="mt-4 text-center text-sm text-accent-foreground">
         Already have an account?
         <Button
           variant={"link"}

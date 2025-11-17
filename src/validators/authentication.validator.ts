@@ -16,14 +16,12 @@ export const userSignupSchema = z.object({
 });
 
 export const userSigninSchema = z.object({
-  isEmail: z.boolean(),
   password: z
     .string()
     .min(8, { error: "Password must be at least 8 characters long." })
     .max(128, { error: "Password can be at most 128 characters long." }),
-  email: z.email(),
   username: z
     .string()
-    .min(3)
-    .max(120, { error: "Username can be at most 128 characters long." })
+    .min(3, { error: "Username must be at least 3 characters long." })
+    .max(120, { error: "Username can be at most 120 characters long." })
 });
