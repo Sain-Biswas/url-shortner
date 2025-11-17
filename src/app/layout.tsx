@@ -5,7 +5,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 // @ts-expect-error
 import "~/app/globals.css";
 import { NextThemeProvider } from "~/integrations/next-themes/provider";
+import { TanstackQueryProviders } from "~/integrations/tanstack-query/provider";
 import { cn } from "~/lib/utils";
+import { Toaster } from "~/shadcn/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +41,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <TanstackQueryProviders>
+            {children}
+            <Toaster position="top-right" />
+          </TanstackQueryProviders>
         </NextThemeProvider>
       </body>
     </html>

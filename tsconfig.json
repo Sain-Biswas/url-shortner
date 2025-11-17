@@ -27,6 +27,7 @@
 
     /* Strict Flags */
     "strict": true,
+    "strictNullChecks": true,
     "noUnusedLocals": true,
     "noImplicitOverride": true,
     "noUnusedParameters": true,
