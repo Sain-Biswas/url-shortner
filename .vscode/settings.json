@@ -1,4 +1,4 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["turso"]
+  "cSpell.words": ["subsecond", "turso", "unixepoch"]
 }
