@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ModeToggleButton } from "~/integrations/next-themes/mode-toggle-button";
 import { trpcServer } from "~/integrations/trpc/server.trpc";
 import { Button } from "~/shadcn/ui/button";
@@ -30,6 +31,15 @@ export default async function IndexPage() {
           <Button variant="outline">Sample</Button>
           <Button variant="secondary">Sample</Button>
         </ButtonGroup>
+
+        <div>
+          <Link href={"/dashboard"}>
+            <Button variant={"link"}>Dashboard</Button>
+          </Link>
+          <Link href={"/signin"}>
+            <Button variant={"link"}>Signin</Button>
+          </Link>
+        </div>
 
         <div>{JSON.stringify(data, null, 2)}</div>
 
