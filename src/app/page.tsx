@@ -1,9 +1,12 @@
 import Image from "next/image";
 import { ModeToggleButton } from "~/integrations/next-themes/mode-toggle-button";
+import { trpcServer } from "~/integrations/trpc/server.trpc";
 import { Button } from "~/shadcn/ui/button";
 import { ButtonGroup } from "~/shadcn/ui/button-group";
 
-export default function IndexPage() {
+export default async function IndexPage() {
+  const data = await trpcServer.index.isAuthenticated();
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between bg-white px-16 py-32 sm:items-start dark:bg-black">
@@ -27,6 +30,8 @@ export default function IndexPage() {
           <Button variant="outline">Sample</Button>
           <Button variant="secondary">Sample</Button>
         </ButtonGroup>
+
+        <div>{JSON.stringify(data, null, 2)}</div>
 
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a

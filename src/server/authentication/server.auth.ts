@@ -1,3 +1,5 @@
+import "server-only";
+
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
@@ -12,7 +14,7 @@ import {
   verificationSchema
 } from "~/server/database/index.schema";
 
-const auth = betterAuth({
+export const auth = betterAuth({
   appName: "URL Shortener",
   secret: env.BETTER_AUTH_SECRET,
   baseURL: `${env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_PROTOCOL}${env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`,
@@ -49,5 +51,3 @@ const auth = betterAuth({
     })
   ]
 });
-
-export default auth;

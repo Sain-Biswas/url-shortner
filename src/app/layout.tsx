@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ZipIn",
+  title: "URL Shortener",
   description: "Easy to use URL Shortener."
 };
 
