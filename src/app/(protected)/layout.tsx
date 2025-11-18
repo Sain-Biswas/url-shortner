@@ -1,8 +1,13 @@
+import { redirect } from "next/navigation";
+import { trpcServer } from "~/integrations/trpc/server.trpc";
 import { AppSidebar } from "~/shadcn/app-sidebar";
-import { SiteHeader } from "~/shadcn/site-header";
 import { SidebarInset, SidebarProvider } from "~/shadcn/ui/sidebar";
 
-export default function Page({ children }: LayoutProps<"/">) {
+export default async function Page({ children }: LayoutProps<"/">) {
+  const { isAuthenticated } = await trpcServer.index.isAuthenticated();
+
+  if (!isAuthenticated) redirect("/signin");
+
   return (
     <SidebarProvider
       style={
@@ -13,10 +18,7 @@ export default function Page({ children }: LayoutProps<"/">) {
       }
     >
       <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SiteHeader />
-        {children}
-      </SidebarInset>
+      <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   );
 }
