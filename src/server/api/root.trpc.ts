@@ -4,6 +4,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/index.trpc";
 
 import { authenticationRouter } from "~/server/api/routes/authentication.route";
 import { indexRouter } from "~/server/api/routes/index.route";
+import { clicksRouter } from "./routes/clicks.route";
 import { linksRouter } from "./routes/links.route";
 
 /**
@@ -14,7 +15,8 @@ import { linksRouter } from "./routes/links.route";
 export const appRouter = createTRPCRouter({
   index: indexRouter,
   authentication: authenticationRouter,
-  links: linksRouter
+  links: linksRouter,
+  clicks: clicksRouter
 });
 
 /**
