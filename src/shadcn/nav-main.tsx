@@ -2,6 +2,7 @@
 
 import { IconChartBar, IconDashboard, IconLink } from "@tabler/icons-react";
 import Link from "next/link";
+import { ManageTagDialog } from "~/components/manage-tag-dialog";
 import { QuickCreateDialog } from "~/components/quick-create-dialog";
 
 import {
@@ -34,9 +35,12 @@ export function NavMain() {
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
+        <SidebarMenu className="flex flex-row gap-2">
+          <SidebarMenuItem className="flex flex-1 items-center gap-2">
             <QuickCreateDialog />
+          </SidebarMenuItem>
+          <SidebarMenuItem className="flex items-center gap-2">
+            <ManageTagDialog />
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>

@@ -1,7 +1,14 @@
 import { eq } from "drizzle-orm";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/index.trpc";
-import { tagsSchema } from "~/server/database/index.schema";
-import { newTagsSchema } from "~/validators/links.validator";
+import {
+  linksOnTagsSchema,
+  linksSchema,
+  tagsSchema
+} from "~/server/database/index.schema";
+import {
+  newQuickLinkSchema,
+  newTagsSchema
+} from "~/validators/links.validator";
 
 export const linksRouter = createTRPCRouter({
   createNewTag: protectedProcedure
@@ -23,5 +30,29 @@ export const linksRouter = createTRPCRouter({
     });
 
     return tags;
-  })
+  }),
+
+  createNewLink: protectedProcedure
+    .input(newQuickLinkSchema)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.database.transaction(async tx => {
+        const link = await tx
+          .insert(linksSchema)
+          .values({
+            originalUrl: input.originalURL,
+            expiresOn: input.expiresOn,
+            userId: ctx.user.id,
+            id: input.id,
+            description: input.description
+          })
+          .returning();
+
+        await tx.insert(linksOnTagsSchema).values(
+          input.tags.map(tagId => ({
+            linksId: link.at(0)?.id ?? "",
+            tagId
+          }))
+        );
+      });
+    })
 });

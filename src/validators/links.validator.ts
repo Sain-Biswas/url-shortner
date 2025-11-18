@@ -12,5 +12,6 @@ export const newQuickLinkSchema = z.object({
   id: z
     .string()
     .min(1, { error: "A short link is needed to map original URL." }),
-  tags: z.array(z.string())
+  tags: z.array(z.string()),
+  expiresOn: z.date().nullable()
 });
