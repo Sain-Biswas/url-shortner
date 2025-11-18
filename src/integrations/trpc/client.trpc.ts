@@ -23,7 +23,7 @@ export type RouterOutputs = inferRouterOutputs<TAppRouter>;
 
 const queryClient = getQueryClient();
 
-const trpc = createTRPCClient<TAppRouter>({
+export const trpc = createTRPCClient<TAppRouter>({
   links: [
     httpBatchStreamLink({
       transformer: SuperJSON,

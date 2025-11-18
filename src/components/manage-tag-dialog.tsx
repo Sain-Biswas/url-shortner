@@ -25,7 +25,7 @@ import {
   EmptyMedia,
   EmptyTitle
 } from "~/shadcn/ui/empty";
-import { Field, FieldGroup } from "~/shadcn/ui/field";
+import { Field, FieldError, FieldGroup } from "~/shadcn/ui/field";
 import {
   InputGroup,
   InputGroupAddon,
@@ -113,6 +113,9 @@ export function ManageTagDialog() {
                             <IconTag />
                           </InputGroupAddon>
                         </InputGroup>
+                        {isInvalid && (
+                          <FieldError errors={field.state.meta.errors} />
+                        )}
                       </Field>
                     );
                   }}
@@ -145,7 +148,7 @@ function CurrentTagList() {
     return (
       <section
         id="tag-list-pending"
-        className="flex flex-col items-center justify-center"
+        className="flex flex-col items-center justify-center p-6"
       >
         <Spinner />
         <p>Fetching current tags</p>
@@ -157,7 +160,7 @@ function CurrentTagList() {
     return (
       <section
         id="tag-list-pending"
-        className="flex flex-col items-center justify-center"
+        className="flex flex-col items-center justify-center p-6"
       >
         <IconExclamationCircleFilled className="size-4" />
         <p>Error while fetching tags</p>

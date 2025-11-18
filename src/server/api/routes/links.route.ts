@@ -1,4 +1,8 @@
+import "server-only";
+
+import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/index.trpc";
 import {
   linksOnTagsSchema,
@@ -35,12 +39,23 @@ export const linksRouter = createTRPCRouter({
   createNewLink: protectedProcedure
     .input(newQuickLinkSchema)
     .mutation(async ({ ctx, input }) => {
+      const existingLink = await ctx.database.query.linksSchema.findFirst({
+        where: eq(linksSchema.id, input.id)
+      });
+
+      if (existingLink) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "The short id is already taken."
+        });
+      }
+
       await ctx.database.transaction(async tx => {
         const link = await tx
           .insert(linksSchema)
           .values({
             originalUrl: input.originalURL,
-            expiresOn: input.expiresOn,
+            expiresOn: input.doesExpire ? input.expiresOn : null,
             userId: ctx.user.id,
             id: input.id,
             description: input.description
@@ -54,5 +69,15 @@ export const linksRouter = createTRPCRouter({
           }))
         );
       });
+    }),
+
+  isNanoidAvailable: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const existing = await ctx.database.query.linksSchema.findFirst({
+        where: eq(linksSchema.id, input)
+      });
+
+      return !existing;
     })
 });
