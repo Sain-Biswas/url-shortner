@@ -71,6 +71,30 @@ export const linksRouter = createTRPCRouter({
       });
     }),
 
+  getUSerLinks: protectedProcedure.query(async ({ ctx }) => {
+    const data = await ctx.database.query.linksSchema.findMany({
+      where: eq(linksSchema.userId, ctx.user.id),
+      with: {
+        tags: {
+          with: {
+            tag: true
+          }
+        },
+        clicks: true
+      },
+      orderBy: [linksSchema.updatedAt]
+    });
+
+    return data.map(link => ({
+      id: link.id,
+      isActive: link.isActive,
+      originalUrl: link.originalUrl,
+      tags: link.tags.map(tag => ({ id: tag.tag.id, name: tag.tag.name })),
+      clicks: link.clicks.length,
+      description: link.description
+    }));
+  }),
+
   isNanoidAvailable: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {

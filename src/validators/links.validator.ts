@@ -18,7 +18,7 @@ export const newQuickLinkSchema = z.object({
 });
 
 export const registerClickSchema = z.object({
-  ipaddress: z.string({ error: "Please provide a valid ipV4 address." }),
+  ipAddress: z.string({ error: "Please provide a valid ipV4 address." }),
   country: z.string().min(1, { error: "An origin country is needed." }),
   linkId: z.string().min(1, { error: "The short id for requested link." })
 });

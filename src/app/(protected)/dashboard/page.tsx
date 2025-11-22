@@ -1,6 +1,6 @@
+import { DashboardTopInfoCards } from "~/components/dashboard/top-info-cards";
 import { ChartAreaInteractive } from "~/shadcn/chart-area-interactive";
 import { DataTable } from "~/shadcn/data-table";
-import { SectionCards } from "~/shadcn/section-cards";
 
 import { Separator } from "~/shadcn/ui/separator";
 import { SidebarTrigger } from "~/shadcn/ui/sidebar";
@@ -22,7 +22,7 @@ export default function Page() {
       <main className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            <SectionCards />
+            <DashboardTopInfoCards />
             <div className="px-4 lg:px-6">
               <ChartAreaInteractive />
             </div>

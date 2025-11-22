@@ -1,5 +1,7 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { linksSchema } from "./links.schema";
+import { tagsSchema } from "./tags.schema";
 
 export const usersSchema = sqliteTable("user", {
   id: text("id").primaryKey(),
@@ -19,3 +21,8 @@ export const usersSchema = sqliteTable("user", {
   username: text("username").unique(),
   displayUsername: text("display_username")
 });
+
+export const usersRelation = relations(usersSchema, ({ many }) => ({
+  links: many(linksSchema),
+  tags: many(tagsSchema)
+}));

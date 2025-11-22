@@ -13,7 +13,7 @@ export async function GET(
   try {
     const url = await trpcServer.clicks.registerClick({
       country: getCountryName(geolocation(request).country),
-      ipaddress: ipAddress(request) ?? "Unavailable",
+      ipAddress: ipAddress(request) ?? "Unavailable",
       linkId: shortID
     });
 

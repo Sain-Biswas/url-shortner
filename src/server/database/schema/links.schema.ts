@@ -1,5 +1,6 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { clicksSchema } from "./clicks.schema";
 import { tagsSchema } from "./tags.schema";
 import { usersSchema } from "./users.schema";
 
@@ -21,6 +22,16 @@ export const linksSchema = sqliteTable("links", {
     .notNull()
 });
 
+export const linksRelation = relations(linksSchema, ({ one, many }) => ({
+  user: one(usersSchema, {
+    fields: [linksSchema.userId],
+    references: [usersSchema.id]
+  }),
+
+  tags: many(linksOnTagsSchema),
+  clicks: many(clicksSchema)
+}));
+
 export const linksOnTagsSchema = sqliteTable("links_on_tags", {
   linksId: text("links_id")
     .notNull()
@@ -29,3 +40,15 @@ export const linksOnTagsSchema = sqliteTable("links_on_tags", {
     .notNull()
     .references(() => tagsSchema.id, { onDelete: "cascade" })
 });
+
+export const linksOnTagsRelation = relations(linksOnTagsSchema, ({ one }) => ({
+  link: one(linksSchema, {
+    fields: [linksOnTagsSchema.linksId],
+    references: [linksSchema.id]
+  }),
+
+  tag: one(tagsSchema, {
+    fields: [linksOnTagsSchema.tagId],
+    references: [tagsSchema.id]
+  })
+}));

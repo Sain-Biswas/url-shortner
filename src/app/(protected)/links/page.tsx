@@ -1,5 +1,6 @@
 import { Separator } from "~/shadcn/ui/separator";
 import { SidebarTrigger } from "~/shadcn/ui/sidebar";
+import { LinkFilter } from "./link-filter";
 
 export default function LinksPage() {
   return (
@@ -14,7 +15,9 @@ export default function LinksPage() {
           <h1 className="text-base font-medium">Links</h1>
         </div>
       </header>
-      <main className="flex flex-1 flex-col"></main>
+      <main className="flex flex-1 flex-col p-4">
+        <LinkFilter />
+      </main>
     </>
   );
 }
